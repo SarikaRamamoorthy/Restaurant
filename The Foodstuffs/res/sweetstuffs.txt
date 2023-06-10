@@ -1,0 +1,12 @@
+sweetstuffs
+
+1  Rasagulla 65
+2  Rasmalai 50
+3  Falooda 100
+4  Banana Split 90
+5  Icecream With Nuts Toppings 80
+6  Carrot Halwa With Icecream 75
+7  Wheat Halwa with Iceccream 75
+8  Hot Jamoon With Icecream 75
+9  Chocolate Brownie With Icecream 110
+10 Fruid Salad With Icecream 70

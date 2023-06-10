@@ -1,0 +1,12 @@
+fruitstuffs
+
+1  Apple 60
+2  Grape 45
+3  Guava 45
+4  Mango 45
+5  Muskmelon 50
+6  Orange 50
+7  PadamMilk 50
+8  PistaMilk 50
+9  Pomegranate 120
+10 Watermelon 35
