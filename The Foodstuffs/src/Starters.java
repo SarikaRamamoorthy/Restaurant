@@ -1,5 +1,4 @@
 // import java.util.Scanner;
-
 import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -52,8 +51,6 @@ public class Starters {
             }while(res.next());
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |__________________________________________|__________________|  ");
-            
-
         }
         catch(Exception e){
             e.printStackTrace();
@@ -61,9 +58,10 @@ public class Starters {
         System.out.println();
         while(true){
             int index1 = 0;
-            System.out.print("             Enter your favourite starter stuff    ≧◠‿◠≦   ");
-            System.out.println("           Enter zero (0) to finish ordering starters...");
+            System.out.println("             Enter your favourite starter stuff    ≧◠‿◠≦    (or)");
+            System.out.print("           Enter zero (0) to finish ordering starters...    ");
             int favstarter = sc.nextInt();
+            System.out.println();
             if(favstarter == 0){
                 break;
             }
