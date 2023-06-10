@@ -45,6 +45,7 @@ public class Starters {
         }
         catch(Exception e){
             e.printStackTrace();
+            
         }
         System.out.println();
         System.out.print("             Enter your favourite starter stuff    ≧◠‿◠≦   ");
