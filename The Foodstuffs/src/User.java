@@ -36,6 +36,8 @@ public class User {
     }
 
     public void selectSignType(){
+        boolean signinFlag = false;
+        boolean signupFlag = false;
         while(true){
             System.out.println("       1. Sign In");
             System.out.println("       2. Sign Up");
@@ -45,10 +47,14 @@ public class User {
             int choice = s.nextInt();
             System.out.println();
             if(choice == 1){
-                signIn();
+                while(!signinFlag)
+                signinFlag = signIn();
+                break;
             }
             else if(choice == 2){
-                signUp();
+                while(!signupFlag)
+                signupFlag = signUp();
+                break;
             }
             else if(choice == 3){
                 break;
@@ -59,7 +65,7 @@ public class User {
         }
     }
 
-    public void signIn(){
+    public boolean signIn(){
         userInfo();
         try{
             PreparedStatement stmt = con.prepareStatement("select user_name from user where user_name = ?;");
@@ -82,7 +88,7 @@ public class User {
                     stmt2.setString(3,pwd);
                     stmt2.executeUpdate();
                     PreparedStatement stmt3 = con.prepareStatement("update user set spl_customer = ? where user_name = ? and password = ?;");
-                    if((difference.getDays() != 0 && difference.getDays()<=7) &&( difference.getMonths() == 0 && difference.getYears() == 0 )){
+                    if(difference.getDays()<=7 &&( difference.getMonths() == 0 && difference.getYears() == 0 )){
                         stmt3.setString(1,"Yes");
                         stmt3.setString(2,name);
                         stmt3.setString(3,pwd);
@@ -90,28 +96,33 @@ public class User {
                         System.out.println();
                         System.out.println("       Congrats!! You are our special customer");
                         System.out.println();
+                        return true;
                     }
                     else{
                         stmt3.setString(1,"No");
                         stmt3.setString(2,name);
                         stmt3.setString(3,pwd);
                         stmt3.executeUpdate();
+                        return true;
                     }
                 }
                 else{
                     System.out.println("       Invalid or wrong password");
+                    return false;
                 }
             }
             else{
                 System.out.println("       Invalid UserName");
+                return false;
             }
         }
         catch(Exception e){
             e.printStackTrace();
+            return false;
         }
     }
     
-    public void signUp(){
+    public boolean signUp(){
         userInfo();
         try{
             PreparedStatement stmt1 = con.prepareStatement("select user_name from user where user_name = ?;");
@@ -121,6 +132,7 @@ public class User {
                 System.out.println();
                 System.out.println("       !!! User Name exists !!!");
                 System.out.println();
+                return false;
             }
             else{
                 PreparedStatement stmt = con.prepareStatement("insert into user(user_name,password,DateOfLastOrder) values(?,?,?);");
@@ -128,10 +140,12 @@ public class User {
                 stmt.setString(2, pwd);
                 stmt.setDate(3, OrderDate);
                 stmt.execute();
+                return true;
             }    
         }
         catch(Exception e){
             e.printStackTrace();
+            return false;
         }
     }
 }

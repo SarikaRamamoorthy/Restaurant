@@ -1,16 +1,22 @@
 // import java.util.Scanner;
 
 import java.sql.Statement;
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
 public class Starters {
     private Connection con = null;
+    private String[] StartersName = new String[30];
+    private String[] OrderedName = new String[30];
+    private int[] StartersPrice = new int[30];
+    private int[] OrderedPrice = new int[30];
     public Starters(Connection con){
         this.con = con;
     }
     public void displaystarters(){
-        // Scanner sc = new Scanner(System.in);
+        int index = 0;
+        Scanner sc = new Scanner(System.in);
         System.out.println();
         try{
             Statement stmt = con.createStatement();
@@ -22,21 +28,27 @@ public class Starters {
             System.out.println("       |    Veg Starters:                         |                  |    ");
             System.out.println("       |                                          |                  |   ");
             while(res.next()&&(res.getInt("SNo")<=10)){
-                String info = res.getInt(0)+" "+res.getString(1);
-                String price = res.getInt(2)+"";
-                info = String.format("%-42s",info);
-                price = String.format("%-18s",price);
-                System.out.println("       |"+info+"|"+price+"|");
+                StartersPrice[index] = res.getInt(3);
+                StartersName[index] = res.getString(2);
+                String info = res.getInt(1)+" "+StartersName[index];
+                String price = StartersPrice[index]+"";
+                info = String.format("%-37s",info);
+                price = String.format("%-11s",price);
+                System.out.println("       |     "+info+"|       "+price+"|");
+                index++;
             }
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Non-veg Starters:                     |                  |   ");
             System.out.println("       |                                          |                  |   ");
             do{
-                String info = res.getInt(0)+" "+res.getString(1);
-                String price = res.getInt(2)+"";
-                info = String.format("%-42s",info);
-                price = String.format("%-18s",price);
-                System.out.println("       |"+info+"|"+price+"|");
+                StartersPrice[index] = res.getInt(3);
+                StartersName[index] = res.getString(2);
+                String info = res.getInt(1)+" "+StartersName[index];
+                String price = StartersPrice[index]+"";
+                info = String.format("%-37s",info);
+                price = String.format("%-11s",price);
+                System.out.println("       |     "+info+"|       "+price+"|");
+                index++;
             }while(res.next());
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |__________________________________________|__________________|  ");
@@ -45,12 +57,27 @@ public class Starters {
         }
         catch(Exception e){
             e.printStackTrace();
-            
         }
         System.out.println();
-        System.out.print("             Enter your favourite starter stuff    ≧◠‿◠≦   ");
-        // int favstarter = sc.nextInt();
+        while(true){
+            int index1 = 0;
+            System.out.print("             Enter your favourite starter stuff    ≧◠‿◠≦   ");
+            System.out.println("           Enter zero (0) to finish ordering starters...");
+            int favstarter = sc.nextInt();
+            if(favstarter == 0){
+                break;
+            }
+            else if((favstarter > 0)&&(favstarter < 31)){
+                OrderedName[index1] = StartersName[favstarter-1];
+                OrderedPrice[index1] = StartersPrice[favstarter-1];
+                index1++;
+            }
+            else{
+                System.out.println("             Invalid starter stuff ...");
+            }
+        }
         System.out.println();
+        sc.close();
     }
 }
 

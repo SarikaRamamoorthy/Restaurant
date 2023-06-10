@@ -7,7 +7,7 @@ public class App {
         Menu menuobj = null;
         System.out.println();
         System.out.println("       ******************************");
-        System.out.println("                Foodstuffs           ");
+        System.out.println("                  Foodstuffs         ");
         System.out.println("       ******************************");
         System.out.println();
         try{
