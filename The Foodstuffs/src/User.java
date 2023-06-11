@@ -35,7 +35,8 @@ public class User {
         return;                                         
     }
 
-    public void selectSignType(){
+    public boolean selectSignType(){
+        boolean exitState = false;
         boolean signinFlag = false;
         boolean signupFlag = false;
         while(true){
@@ -57,12 +58,14 @@ public class User {
                 break;
             }
             else if(choice == 3){
+                exitState = true;
                 break;
             }
             else{
                 System.out.println("       Invalid Choice");
-           }
+            }
         }
+        return exitState;
     }
 
     public boolean signIn(){

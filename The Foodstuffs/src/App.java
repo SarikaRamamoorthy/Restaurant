@@ -23,7 +23,9 @@ public class App {
             e.printStackTrace();
         }     
         while(!orderState){
-            userobj.selectSignType();
+            orderState = userobj.selectSignType();
+            if(orderState)
+            break;
             orderState = menuobj.displayMenu();
         }  
         System.out.println("             Come Back soon :)");
