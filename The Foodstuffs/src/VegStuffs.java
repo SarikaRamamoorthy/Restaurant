@@ -9,12 +9,14 @@ public class VegStuffs {
     private String[] OrderedName = new String[30];
     private int[] VegStuffsPrice = new int[30];
     private int[] OrderedPrice = new int[30];
-    public VegStuffs(Connection con){
+    Scanner sc = null;
+    public VegStuffs(Connection con,Scanner s){
         this.con = con;
+        this.sc = s;
     }
     public void displayVegStuffs(){
         int index = 0;
-        Scanner sc = new Scanner(System.in);
+        int index1 = 0;
         try{
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery("select * from vegstuffs");
@@ -25,6 +27,8 @@ public class VegStuffs {
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Tiffin:                               |                  |   ");
             System.out.println("       |                                          |                  |   ");
+
+            
             while(res.next() && (res.getInt(1)<=10)){
                VegStuffsPrice[index] = res.getInt(3);
                 VegStuffsName[index] = res.getString(2);
@@ -35,9 +39,13 @@ public class VegStuffs {
                 System.out.println("       |      "+info+"|       "+price+"|");
                 index++;
             }
+
+
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Gravy:                                |                  |   ");
             System.out.println("       |                                          |                  |   ");
+
+
             do{
                 VegStuffsPrice[index] = res.getInt(3);
                 VegStuffsName[index] = res.getString(2);
@@ -46,10 +54,15 @@ public class VegStuffs {
                 info = String.format("%-36s",info);
                 price = String.format("%-11s",price);
                 System.out.println("       |      "+info+"|       "+price+"|");
+                index++;
             }while(res.next() && (res.getInt(1)<=15));
+            
+            
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Noodles:                              |                  |   ");
             System.out.println("       |                                          |                  |   ");
+            
+            
             do{
                 VegStuffsPrice[index] = res.getInt(3);
                 VegStuffsName[index] = res.getString(2);
@@ -58,10 +71,15 @@ public class VegStuffs {
                 info = String.format("%-36s",info);
                 price = String.format("%-11s",price);
                 System.out.println("       |      "+info+"|       "+price+"|");
+                index++;
             }while(res.next() && (res.getInt(1)<=17));
+            
+            
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Rice:                                 |                  |   ");
             System.out.println("       |                                          |                  |   ");
+            
+            
             do{
                 VegStuffsPrice[index] = res.getInt(3);
                 VegStuffsName[index] = res.getString(2);
@@ -70,10 +88,15 @@ public class VegStuffs {
                 info = String.format("%-36s",info);
                 price = String.format("%-11s",price);
                 System.out.println("       |      "+info+"|       "+price+"|");
+                index++;
             }while(res.next() && (res.getInt(1)<=20));
+            
+            
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |    Briyani & Pulao:                      |                  |   ");
             System.out.println("       |                                          |                  |   ");
+            
+            
             do{
                 VegStuffsPrice[index] = res.getInt(3);
                 VegStuffsName[index] = res.getString(2);
@@ -82,30 +105,39 @@ public class VegStuffs {
                 info = String.format("%-36s",info);
                 price = String.format("%-11s",price);
                 System.out.println("       |      "+info+"|       "+price+"|");
+                index++;
             }while(res.next() && (res.getInt(1)<=25));
+            
+            
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |__________________________________________|__________________|  ");
             System.out.println();
-             while(true){
-            int index1 = 0;
-            System.out.println("             Enter your favourite veg stuff    ≧◠‿◠≦     (or)");
-            System.out.print("           Enter zero (0) to finish ordering Vegstuff...    ");
-            int favvegstuff = sc.nextInt();
+            while(true){
+                System.out.println("             Enter your favourite veg stuff    ≧◠‿◠≦     (or)");
+                System.out.print("           Enter zero (0) to finish ordering Vegstuff...    ");
+                int favvegstuff = sc.nextInt();
+                System.out.println();
+                int quantity = 1;
+                if(favvegstuff != 0){
+                    System.out.print("           Enter the quantity: ");
+                    quantity = sc.nextInt();
+                }
+                System.out.println();
+                if(favvegstuff == 0){
+                    Bill bill = new Bill();
+                    bill.billGeneration(OrderedName, OrderedPrice);
+                    break;
+                }
+                else if((favvegstuff > 0)&&(favvegstuff < 26)){
+                    OrderedName[index1] = VegStuffsName[favvegstuff-1];
+                    OrderedPrice[index1] = VegStuffsPrice[favvegstuff-1]*quantity;
+                    index1++;
+                }
+                else{
+                    System.out.println("             Invalid veg stuff ...");
+                }
+            }
             System.out.println();
-            if(favvegstuff == 0){
-                break;
-            }
-            else if((favvegstuff > 0)&&(favvegstuff < 26)){
-                OrderedName[index1] = VegStuffsName[favvegstuff-1];
-                OrderedPrice[index1] = VegStuffsPrice[favvegstuff-1];
-                index1++;
-            }
-            else{
-                System.out.println("             Invalid veg stuff ...");
-            }
-        }
-            System.out.println();
-            sc.close();
         }
         catch(Exception e){
             e.printStackTrace();

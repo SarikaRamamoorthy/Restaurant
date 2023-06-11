@@ -5,16 +5,18 @@ import java.util.Scanner;
 
 public class SweetStuffs {
     private Connection con = null;
-    private String[] sweetStuffsName = new String[30];
-    private String[] OrderedName = new String[30];
-    private int[] sweetStuffsPrice = new int[30];
-    private int[] OrderedPrice = new int[30];
-    public SweetStuffs(Connection con){
+    private String[] sweetStuffsName = new String[10];
+    private String[] OrderedName = new String[10];
+    private int[] sweetStuffsPrice = new int[10];
+    private int[] OrderedPrice = new int[10];
+    Scanner sc = null;
+    public SweetStuffs(Connection con,Scanner s){
         this.con = con;
+        this.sc = s;
     }
     public void displaySweetStuffs(){
-        Scanner sc = new Scanner(System.in);
         int index = 0;
+        int index1 = 0;
         try{
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery("select * from sweetstuffs");
@@ -31,30 +33,37 @@ public class SweetStuffs {
                 info = String.format("%-36s",info);
                 price = String.format("%-11s",price);
                 System.out.println("       |      "+info+"|       "+price+"|");
+                index++;
             }
             System.out.println("       |                                          |                  |   ");
             System.out.println("       |__________________________________________|__________________|  ");
             System.out.println();
             while(true){
-            int index1 = 0;
-            System.out.println("             Enter your favourite sweet stuff    ≧◠‿◠≦     (or)");
-            System.out.print("        Enter zero (0) to finish ordering sweetstuff...        ");
-            int favsweetstuff = sc.nextInt();
+                System.out.println("        Enter your favourite sweet stuff    ≧◠‿◠≦     (or)");
+                System.out.print("        Enter zero (0) to finish ordering sweetstuff...        ");
+                int favsweetstuff = sc.nextInt();
+                System.out.println();
+                int quantity = 1;
+                if(favsweetstuff != 0){
+                    System.out.print("        Enter the quantity: ");
+                    quantity = sc.nextInt();
+                }
+                System.out.println();
+                if(favsweetstuff == 0){
+                    Bill bill = new Bill();
+                    bill.billGeneration(OrderedName, OrderedPrice);
+                    break;
+                }
+                else if((favsweetstuff > 0)&&(favsweetstuff < 11)){
+                    OrderedName[index1] = sweetStuffsName[favsweetstuff-1];
+                    OrderedPrice[index1] = sweetStuffsPrice[favsweetstuff-1]*quantity;
+                    index1++;
+                }
+                else{
+                    System.out.println("             Invalid sweet stuff ...");
+                }
+            }
             System.out.println();
-            if(favsweetstuff == 0){
-                break;
-            }
-            else if((favsweetstuff > 0)&&(favsweetstuff < 11)){
-                OrderedName[index1] = sweetStuffsName[favsweetstuff-1];
-                OrderedPrice[index1] = sweetStuffsPrice[favsweetstuff-1];
-                index1++;
-            }
-            else{
-                System.out.println("             Invalid sweet stuff ...");
-            }
-        }
-            System.out.println();
-            sc.close();
         }
         catch(Exception e){
             e.printStackTrace();

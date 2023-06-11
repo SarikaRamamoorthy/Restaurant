@@ -9,12 +9,15 @@ public class NonVegStuffs {
     private String[] OrderedName = new String[30];
     private int[] NonvegStuffsPrice = new int[30];
     private int[] OrderedPrice = new int[30];
-    public NonVegStuffs(Connection con){
+    Scanner sc = null;
+    public NonVegStuffs(Connection con,Scanner s){
         this.con = con;
+        this.sc = s;
     }
     public void displayNonVegStuffs(){
-        int index = 0 ;
-        Scanner sc = new Scanner(System.in);
+        int index = 0 ;  
+        int index1 = 0;
+
         try{
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery("select * from Nonvegstuffs");
@@ -91,25 +94,31 @@ public class NonVegStuffs {
             System.out.println("       |__________________________________________|__________________|  ");
             System.out.println();
             while(true){
-            int index1 = 0;
-            System.out.println("             Enter your favourite nonveg stuff    ≧◠‿◠≦     (or)");
-            System.out.print("        Enter zero (0) to finish ordering Nonvegstuff...        ");
-            int favnonvegstuff = sc.nextInt();
-            System.out.println();
-            if(favnonvegstuff == 0){
-                break;
+                System.out.println("        Enter your favourite nonveg stuff    ≧◠‿◠≦     (or)");
+                System.out.print("        Enter zero (0) to finish ordering Nonvegstuff...        ");
+                int favnonvegstuff = sc.nextInt();
+                System.out.println();
+                int quantity = 1;
+                if(favnonvegstuff != 0){
+                    System.out.print("        Enter the quantity: ");
+                    quantity = sc.nextInt();
+                }
+                System.out.println();
+                if(favnonvegstuff == 0){
+                    Bill bill = new Bill();
+                    bill.billGeneration(OrderedName, OrderedPrice);
+                    break;
+                }
+                else if((favnonvegstuff > 0)&&(favnonvegstuff < 21)){
+                    OrderedName[index1] = NonvegStuffsName[favnonvegstuff-1];
+                    OrderedPrice[index1] = NonvegStuffsPrice[favnonvegstuff-1]*quantity;
+                    index1++;
+                }
+                else{
+                    System.out.println("             Invalid nonveg stuff ...");
+                }
             }
-            else if((favnonvegstuff > 0)&&(favnonvegstuff < 21)){
-                OrderedName[index1] = NonvegStuffsName[favnonvegstuff-1];
-                OrderedPrice[index1] = NonvegStuffsPrice[favnonvegstuff-1];
-                index1++;
-            }
-            else{
-                System.out.println("             Invalid nonveg stuff ...");
-            }
-        }
         System.out.println();
-        sc.close();
     }
         catch(Exception e){
             e.printStackTrace();

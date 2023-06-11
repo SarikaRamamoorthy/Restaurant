@@ -1,10 +1,13 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
         User userobj = null;
         Menu menuobj = null;
+        boolean orderState = false;
+        Scanner s = new Scanner(System.in);
         System.out.println();
         System.out.println("       ******************************");
         System.out.println("                  Foodstuffs         ");
@@ -13,13 +16,16 @@ public class App {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Foodstuffs","root","123456789");
-            userobj = new User(con);
-            menuobj = new Menu(con);
+            userobj = new User(con,s);
+            menuobj = new Menu(con,s);
         }
         catch(Exception e){
             e.printStackTrace();
-        }
-        userobj.selectSignType();
-        menuobj.displayMenu();
+        }     
+        while(!orderState){
+            userobj.selectSignType();
+            orderState = menuobj.displayMenu();
+        }  
+        System.out.println("             Come Back soon :)");
     }
 }

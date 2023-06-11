@@ -10,12 +10,14 @@ public class Starters {
     private String[] OrderedName = new String[30];
     private int[] StartersPrice = new int[30];
     private int[] OrderedPrice = new int[30];
-    public Starters(Connection con){
+    private Scanner sc = null;
+    public Starters(Connection con,Scanner sc){
         this.con = con;
+        this.sc = sc;
     }
     public void displaystarters(){
         int index = 0;
-        Scanner sc = new Scanner(System.in);
+        int index1 = 0;
         System.out.println();
         try{
             Statement stmt = con.createStatement();
@@ -57,17 +59,24 @@ public class Starters {
         }
         System.out.println();
         while(true){
-            int index1 = 0;
-            System.out.println("             Enter your favourite starter stuff    ≧◠‿◠≦    (or)");
+            System.out.println("           Enter your favourite starter stuff    ≧◠‿◠≦    (or)");
             System.out.print("           Enter zero (0) to finish ordering starters...    ");
             int favstarter = sc.nextInt();
             System.out.println();
+            int quantity = 1;
+            if(favstarter!=0){
+                System.out.print("           Enter the quantity: ");
+                quantity = sc.nextInt();
+            }
+            System.out.println();
             if(favstarter == 0){
+                Bill bill = new Bill();
+                bill.billGeneration(OrderedName, OrderedPrice);
                 break;
             }
             else if((favstarter > 0)&&(favstarter < 31)){
                 OrderedName[index1] = StartersName[favstarter-1];
-                OrderedPrice[index1] = StartersPrice[favstarter-1];
+                OrderedPrice[index1] = StartersPrice[favstarter-1]*quantity;
                 index1++;
             }
             else{
@@ -75,7 +84,6 @@ public class Starters {
             }
         }
         System.out.println();
-        sc.close();
     }
 }
 

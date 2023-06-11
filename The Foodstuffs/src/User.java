@@ -15,10 +15,10 @@ public class User {
     private char[] password;
     private String pwd;
     private java.sql.Date OrderDate;
-    private Scanner s = new Scanner(System.in);
-    
-    public User(Connection con){
+    private Scanner s = null;
+    public User(Connection con,Scanner s){
         this.con = con;
+        this.s = s;
     }
 
     public void userInfo(){
@@ -93,6 +93,7 @@ public class User {
                         stmt3.setString(2,name);
                         stmt3.setString(3,pwd);
                         stmt3.executeUpdate();
+                        Bill.specialCustomerFlag = true;
                         System.out.println();
                         System.out.println("       Congrats!! You are our special customer");
                         System.out.println();
