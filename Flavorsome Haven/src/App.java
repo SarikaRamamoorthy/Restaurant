@@ -10,7 +10,7 @@ public class App {
         Scanner s = new Scanner(System.in);
         System.out.println();
         System.out.println("       ******************************");
-        System.out.println("                  Foodstuffs         ");
+        System.out.println("              Flavorsome Heaven      ");
         System.out.println("       ******************************");
         System.out.println();
         try{
